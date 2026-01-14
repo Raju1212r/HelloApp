@@ -1,2 +1,2 @@
 # HelloApp
-My first Android using Kotlin
+My first Android App using Kotlin
