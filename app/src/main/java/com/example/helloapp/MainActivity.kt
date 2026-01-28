@@ -3,24 +3,15 @@ package com.example.helloapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,14 +20,13 @@ import com.example.helloapp.ui.theme.HelloAppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             HelloAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "HelloApp",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    WelcomeScreen()
                 }
             }
         }
@@ -44,7 +34,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun WelcomeScreen() {
+    var name by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -55,47 +46,57 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     ) {
 
         Text(
-            text = "HelloApp",
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold
+            text = "Welcome to HelloApp",
+            fontSize = 26.sp,
+            fontWeight = FontWeight.SemiBold,
+            textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Text(
-            text = "Welcome! Let’s get started",
-            fontSize = 16.sp,
-            color = Color.Gray
+            text = "Enter your name to continue",
+            fontSize = 15.sp,
+            color = Color.Gray,
+            textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            label = { Text("Enter your name") },
-            modifier = Modifier.fillMaxWidth()
+            value = name,
+            onValueChange = { name = it },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            shape = RoundedCornerShape(12.dp)
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         Button(
-            onClick = {},
+            onClick = { },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
-            shape = RoundedCornerShape(12.dp)
+                .height(48.dp),
+            shape = RoundedCornerShape(14.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF3B82F6)
+            )
         ) {
-            Text(text = "Get Started", fontSize = 16.sp)
+            Text(
+                text = "Get Started",
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White
+            )
         }
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun WelcomeScreenPreview() {
     HelloAppTheme {
-        Greeting("HelloApp")
+        WelcomeScreen()
     }
 }
